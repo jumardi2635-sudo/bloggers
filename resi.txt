@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>J&T Express Tracking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Modern Design System - White Theme */
+        :root {
+            --primary-red: #e60000;
+            --primary-red-dark: #cc0000;
+            --primary-red-light: #ff3333;
+            --gradient-red: linear-gradient(135deg, #e60000 0%, #cc0000 100%);
+            --gradient-red-alt: linear-gradient(45deg, #e60000 0%, #ff3333 100%);
+            --surface-1: #ffffff;
+            --surface-2: #f8f9fa;
+            --surface-3: #f1f3f5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --text-tertiary: #999999;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+            --radius-sm: 12px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-medium: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: #ffffff;
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Modern Container */
+        .modern-container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 16px;
+            position: relative;
+        }
+
+        /* Floating Header */
+        .floating-header {
+            background: var(--gradient-red);
+            color: white;
+            border-radius: var(--radius-xl);
+            padding: 32px 24px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .floating-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: floatParticles 20s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes floatParticles {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-40px, -40px) rotate(360deg); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .logo-badge {
+            width: 72px;
+            height: 72px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-badge i {
+            font-size: 32px;
+            color: white;
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
+
+        /* Tracking ID Card */
+        .tracking-id-card {
+            background: var(--surface-1);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(230, 0, 0, 0.1);
+            transition: var(--transition-medium);
+            position: relative;
+        }
+
+        .tracking-id-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .tracking-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .tracking-label-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-red);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .tracking-label-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tracking-number {
+            font-family: 'SF Mono', 'Monaco', 'Roboto Mono', monospace;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-red);
+            letter-spacing: 2px;
+            text-align: center;
+            padding: 16px;
+            background: linear-gradient(45deg, #fff5f5, #ffe6e6);
+            border-radius: var(--radius-md);
+            border: 2px dashed rgba(230, 0, 0, 0.2);
+            margin-bottom: 16px;
+        }
+
+        /* Status Indicator */
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            background: linear-gradient(45deg, #e60000, #ff3333);
+            border-radius: var(--radius-lg);
+            color: white;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 24px;
+            animation: statusPulse 2s infinite;
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { box-shadow: 0 4px 20px rgba(230, 0, 0, 0.3); }
+            50% { box-shadow: 0 4px 30px rgba(230, 0, 0, 0.5); }
+        }
+
+        .status-icon {
+            font-size: 24px;
+            animation: truckMove 1.5s infinite;
+        }
+
+        @keyframes truckMove {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
+        }
+
+        .status-text {
+            font-size: 18px;
+            font-weight: 700;
+            flex: 1;
+        }
+
+        .status-time {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Modern Card */
+        .modern-card {
+            background: var(--surface-1);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(230, 0, 0, 0.08);
+            transition: var(--transition-medium);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modern-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: var(--gradient-red);
+        }
+
+        .modern-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid rgba(230, 0, 0, 0.1);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-red);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(230, 0, 0, 0.2);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.3px;
+        }
+
+        /* Detail Items Modern */
+        .detail-item-modern {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(230, 0, 0, 0.05);
+            transition: var(--transition-fast);
+        }
+
+        .detail-item-modern:hover {
+            background: rgba(230, 0, 0, 0.02);
+            padding-left: 12px;
+            padding-right: 12px;
+            margin: 0 -12px;
+            border-radius: 8px;
+        }
+
+        .detail-item-modern:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label-modern {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
+        }
+
+        .detail-value-modern {
+            flex: 1.5;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-align: right;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .value-highlight {
+            font-weight: 700;
+            color: var(--primary-red);
+            background: linear-gradient(45deg, #fff5f5, #ffe6e6);
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-top: 8px;
+            width: 100%;
+            text-align: left;
+            border-left: 4px solid var(--primary-red);
+        }
+
+        .address-value {
+            font-size: 15px;
+            line-height: 1.5;
+            text-align: right;
+            color: var(--text-secondary);
+        }
+
+        /* Price Tag Modern */
+        .price-tag-modern {
+            background: linear-gradient(45deg, #fff5f5, #ffe6e6);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            text-align: center;
+            border: 2px solid rgba(230, 0, 0, 0.1);
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .price-tag-modern::before {
+            content: '💸';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 40px;
+            opacity: 0.2;
+        }
+
+        .price-label-modern {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .price-amount-modern {
+            font-size: 42px;
+            font-weight: 900;
+            color: var(--primary-red);
+            line-height: 1;
+            letter-spacing: -1px;
+        }
+
+        /* Timeline Modern */
+        .timeline-modern {
+            position: relative;
+            padding-left: 32px;
+            margin-top: 20px;
+        }
+
+        .timeline-modern::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, 
+                var(--primary-red) 0%,
+                rgba(230, 0, 0, 0.3) 100%);
+            border-radius: 1px;
+        }
+
+        .timeline-item-modern {
+            position: relative;
+            margin-bottom: 24px;
+            padding: 20px;
+            background: var(--surface-1);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(230, 0, 0, 0.1);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-medium);
+        }
+
+        .timeline-item-modern:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .timeline-item-modern::before {
+            content: '';
+            position: absolute;
+            left: -29px;
+            top: 28px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid var(--primary-red);
+            box-shadow: 0 0 0 4px rgba(230, 0, 0, 0.1);
+            z-index: 2;
+        }
+
+        .timeline-item-modern.active::before {
+            background: var(--primary-red);
+            animation: timelinePulse 2s infinite;
+        }
+
+        @keyframes timelinePulse {
+            0% { box-shadow: 0 0 0 0 rgba(230, 0, 0, 0.4); }
+            70% { box-shadow: 0 0 0 8px rgba(230, 0, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(230, 0, 0, 0); }
+        }
+
+        .timeline-date-modern {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .timeline-status-modern {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .timeline-location-modern {
+            font-size: 14px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Floating Action Bar */
+        .floating-action-bar {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 32px);
+            max-width: 500px;
+            background: var(--surface-1);
+            border-radius: var(--radius-xl);
+            padding: 16px;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(230, 0, 0, 0.1);
+            z-index: 1000;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .action-btn-modern {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 8px;
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .action-btn-modern:hover,
+        .action-btn-modern:active {
+            background: rgba(230, 0, 0, 0.05);
+            color: var(--primary-red);
+            transform: translateY(-2px);
+        }
+
+        .action-btn-modern .icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(230, 0, 0, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--primary-red);
+            transition: var(--transition-fast);
+        }
+
+        .action-btn-modern:hover .icon,
+        .action-btn-modern:active .icon {
+            background: var(--gradient-red);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Contact Information Section */
+        .contact-section {
+            background: linear-gradient(45deg, #fff5f5, #ffe6e6);
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            margin-top: 24px;
+            text-align: center;
+            border: 1px solid rgba(230, 0, 0, 0.1);
+        }
+
+        .contact-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-red);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 16px;
+            background: white;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(230, 0, 0, 0.1);
+            transition: var(--transition-fast);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .contact-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* Scroll Progress */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-red), var(--primary-red-light));
+            transform-origin: 0%;
+            z-index: 9999;
+        }
+
+        /* Loading Animation */
+        .loading-shimmer {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.4) 50%, 
+                transparent 100%);
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            100% { left: 100%; }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 480px) {
+            .modern-container {
+                padding: 12px;
+            }
+            
+            .floating-header {
+                padding: 24px 16px;
+                margin-bottom: 16px;
+            }
+            
+            .header-title {
+                font-size: 24px;
+            }
+            
+            .tracking-number {
+                font-size: 22px;
+                padding: 12px;
+            }
+            
+            .floating-action-bar {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                padding: 12px;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .floating-action-bar,
+            .floating-header::before {
+                display: none;
+            }
+            
+            .modern-container {
+                padding: 0;
+            }
+            
+            .modern-card,
+            .tracking-id-card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            .contact-section {
+                display: none;
+            }
+        }
+
+        /* Bottom spacing for action bar */
+        .content-bottom-spacing {
+            padding-bottom: 120px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Main Container -->
+    <div class="modern-container content-bottom-spacing">
+        <!-- Floating Header -->
+        <div class="floating-header">
+            <div class="header-content">
+                <div class="logo-badge">
+                    <i class="fas fa-shipping-fast"></i>
+                </div>
+                <h1 class="header-title">J&T Express Tracking</h1>
+                <p class="header-subtitle">Real-time delivery tracking and information</p>
+            </div>
+        </div>
+
+        <!-- Tracking ID Card -->
+        <div class="tracking-id-card">
+            <div class="tracking-label">
+                <div class="tracking-label-icon">
+                    <i class="fas fa-barcode"></i>
+                </div>
+                <div class="tracking-label-text">Nomor Resi</div>
+            </div>
+            <div class="tracking-number">JTX789456123MY</div>
+            <div class="loading-shimmer"></div>
+        </div>
+
+        <!-- Status Indicator -->
+        <div class="status-indicator">
+            <div class="status-icon">
+                <i class="fas fa-truck"></i>
+            </div>
+            <div class="status-text">Paket Proses Dihantar</div>
+            <div class="status-time">Update 5 min lalu</div>
+        </div>
+
+        <!-- Information Grid -->
+        <div class="info-grid">
+            <!-- Sender Information -->
+            <div class="modern-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="card-title">Pengirim</div>
+                </div>
+                
+                <div class="detail-item-modern">
+                    <div class="detail-label-modern">Nama Lengkap</div>
+                    <div class="detail-value-modern">
+                        <span class="value-highlight">AHMAD BIN ALI</span>
+                    </div>
+                </div>
+                
+                <div class="detail-item-modern">
+                    <div class="detail-label-modern">No. Telepon</div>
+                    <div class="detail-value-modern">+60 12-345 6789</div>
+                </div>
+                
+                <div class="detail-item-modern">
+                    <div class="detail-label-modern">Alamat Pengirim</div>
+                    <div class="detail-value-modern">
+                        <span class="address-value">
+                            LOT 123, JALAN BUKIT BINTANG<br>
+                            55100 KUALA LUMPUR
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Receiver Information -->
+            <div class="modern-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="card-title">Penerima</div>
+                </div>
+                
+                <div class="detail-item-modern">
+                    <div class="detail-label-modern">Nama Lengkap</div>
+                    <div class="detail-value-modern">
+                        <span class="value-highlight">SITI NORHALIZA BINTI ISMAIL</span>
+                    </div>
+                </div>
+                
+                <div class="detail-item-modern">
+                    <div class="detail-label-modern">No. Telepon</div>
+                    <div class="detail-value-modern">+60 16-789 0123</div>
+                </div>
+                
+                <div class="detail-item-modern">
+                    <div class="detail-label-modern">Alamat Penerima</div>
+                    <div class="detail-value-modern">
+                        <span class="address-value">
+                            NO 45, JALAN TUN RAZAK<br>
+                            50400 KUALA LUMPUR
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Package Information -->
+            <div class="modern-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <div class="card-title">Informasi Paket</div>
+                </div>
+                
+                <div class="detail-item-modern">
+                    <div class="detail-label-modern">Jumlah Paket</div>
+                    <div class="detail-value-modern">
+                        <span class="value-highlight">1 Paket</span>
+                    </div>
+                </div>
+                
+                <div class="detail-item-modern">
+                    <div class="detail-label-modern">Jenis Barang</div>
+                    <div class="detail-value-modern">Peralatan Elektronik</div>
+                </div>
+                
+                <div class="detail-item-modern">
+                    <div class="detail-label-modern">Berat Total</div>
+                    <div class="detail-value-modern">
+                        <span class="value-highlight">2.5 Kg</span>
+                    </div>
+                </div>
+                
+                <div class="detail-item-modern">
+                    <div class="detail-label-modern">Dimensi Paket</div>
+                    <div class="detail-value-modern">30×20×15 cm</div>
+                </div>
+            </div>
+
+            <!-- Delivery Information -->
+            <div class="modern-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <div class="card-title">Informasi Pengiriman</div>
+                </div>
+                
+                <div class="detail-item-modern">
+                    <div class="detail-label-modern">Tanggal Dikirim</div>
+                    <div class="detail-value-modern">
+                        <span class="value-highlight">17 JAN 2024 - 10:30 AM</span>
+                    </div>
+                </div>
+                
+                <div class="detail-item-modern">
+                    <div class="detail-label-modern">Estimasi Tiba</div>
+                    <div class="detail-value-modern">
+                        <span class="value-highlight">18 JAN 2024 - 3:00 PM</span>
+                    </div>
+                </div>
+                
+                <div class="detail-item-modern">
+                    <div class="detail-label-modern">Jenis Layanan</div>
+                    <div class="detail-value-modern">Express (Next Day)</div>
+                </div>
+                
+                <div class="price-tag-modern">
+                    <div class="price-label-modern">Biaya Pengiriman</div>
+                    <div class="price-amount-modern">RM 24.50</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="modern-card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <div class="card-title">Riwayat Pengiriman</div>
+            </div>
+            
+            <div class="timeline-modern">
+                <div class="timeline-item-modern active">
+                    <div class="timeline-date-modern">
+                        <i class="far fa-clock"></i>
+                        17 JAN 2024 - 14:30
+                    </div>
+                    <div class="timeline-status-modern">
+                        <i class="fas fa-check-circle" style="color: #10b981;"></i>
+                        Paket Proses Dihantar
+                    </div>
+                    <div class="timeline-location-modern">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Kurier: AHMAD (J&T Express)
+                    </div>
+                </div>
+                
+                <div class="timeline-item-modern">
+                    <div class="timeline-date-modern">
+                        <i class="far fa-clock"></i>
+                        17 JAN 2024 - 08:15
+                    </div>
+                    <div class="timeline-status-modern">
+                        <i class="fas fa-truck"></i>
+                        Sedang dalam Perjalanan
+                    </div>
+                    <div class="timeline-location-modern">
+                        <i class="fas fa-warehouse"></i>
+                        J&T Express Hub - Kuala Lumpur
+                    </div>
+                </div>
+                
+                <div class="timeline-item-modern">
+                    <div class="timeline-date-modern">
+                        <i class="far fa-clock"></i>
+                        16 JAN 2024 - 22:45
+                    </div>
+                    <div class="timeline-status-modern">
+                        <i class="fas fa-warehouse"></i>
+                        Tiba di Hub Pusat
+                    </div>
+                    <div class="timeline-location-modern">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Main Distribution Center
+                    </div>
+                </div>
+                
+                <div class="timeline-item-modern">
+                    <div class="timeline-date-modern">
+                        <i class="far fa-clock"></i>
+                        16 JAN 2024 - 14:20
+                    </div>
+                    <div class="timeline-status-modern">
+                        <i class="fas fa-box-open"></i>
+                        Paket Diterima oleh J&T
+                    </div>
+                    <div class="timeline-location-modern">
+                        <i class="fas fa-store"></i>
+                        Branch Kuala Lumpur City Center
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Information Section -->
+        <div class="contact-section">
+            <div class="contact-title">
+                <i class="fas fa-headset"></i>
+                Butuh Bantuan?
+            </div>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="contact-text">1-300-88-9999</div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="contact-text">www.jtexpress.my</div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-text">support@jtexpress.my</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Bar -->
+    <div class="floating-action-bar">
+        <button class="action-btn-modern" onclick="printDocument()">
+            <div class="icon">
+                <i class="fas fa-print"></i>
+            </div>
+            <span>Print</span>
+        </button>
+        
+        <button class="action-btn-modern" onclick="shareTracking()">
+            <div class="icon">
+                <i class="fas fa-share-alt"></i>
+            </div>
+            <span>Share</span>
+        </button>
+        
+        <button class="action-btn-modern" onclick="downloadPDF()">
+            <div class="icon">
+                <i class="fas fa-download"></i>
+            </div>
+            <span>PDF</span>
+        </button>
+        
+        <button class="action-btn-modern" onclick="contactSupport()">
+            <div class="icon">
+                <i class="fas fa-headset"></i>
+            </div>
+            <span>Help</span>
+        </button>
+    </div>
+
+    <script>
+        // Scroll Progress Indicator
+        const scrollProgress = document.getElementById('scrollProgress');
+        window.addEventListener('scroll', () => {
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            scrollProgress.style.transform = `scaleX(${scrolled / 100})`;
+        });
+
+        // Modern Print Function
+        function printDocument() {
+            // Add print animation
+            const printBtn = document.querySelector('[onclick="printDocument()"]');
+            printBtn.classList.add('loading');
+            
+            setTimeout(() => {
+                const printContent = document.querySelector('.modern-container').innerHTML;
+                const originalContent = document.body.innerHTML;
+                
+                document.body.innerHTML = `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>J&T Express Tracking - JTX789456123MY</title>
+                        <style>
+                            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+                            body { 
+                                font-family: 'Inter', sans-serif; 
+                                margin: 0; 
+                                padding: 20px; 
+                                color: #1a1a1a;
+                                background: white;
+                            }
+                            .modern-container { 
+                                max-width: 100%; 
+                                margin: 0 auto;
+                            }
+                            .modern-card { 
+                                border: 1px solid #e0e0e0; 
+                                margin-bottom: 20px; 
+                                border-radius: 16px;
+                                overflow: hidden;
+                                background: white;
+                            }
+                            .tracking-number { 
+                                font-size: 24px; 
+                                font-weight: bold; 
+                                color: #e60000;
+                            }
+                            .value-highlight {
+                                background: #f8f9fa;
+                                border-left: 4px solid #e60000;
+                            }
+                            .floating-action-bar { 
+                                display: none !important; 
+                            }
+                            .contact-section { 
+                                display: none !important; 
+                            }
+                            @page { margin: 15mm; }
+                            @media print {
+                                body { margin: 0; padding: 0; }
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        ${printContent}
+                        <div style="text-align: center; margin-top: 30px; color: #666; font-size: 12px;">
+                            Dicetak: ${new Date().toLocaleString('ms-MY')}
+                        </div>
+                        <script>
+                            setTimeout(() => {
+                                window.print();
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 100);
+                            }, 500);
+                        <\/script>
+                    </body>
+                    </html>
+                `;
+            }, 500);
+        }
+
+        // Modern Share Function
+        async function shareTracking() {
+            const trackingNumber = document.querySelector('.tracking-number').textContent;
+            const status = document.querySelector('.status-text').textContent;
+            
+            const shareData = {
+                title: 'J&T Express Tracking',
+                text: `Nomor Resi: ${trackingNumber}\nStatus: ${status}\n\nLacak di: `,
+                url: window.location.href
+            };
+            
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    // Fallback to clipboard
+                    await navigator.clipboard.writeText(
+                        `J&T Express Tracking\n${trackingNumber}\nStatus: ${status}\n\n${window.location.href}`
+                    );
+                    showNotification('Link berhasil disalin!', 'success');
+                }
+            } catch (err) {
+                console.log('Error sharing:', err);
+                showNotification('Gagal berbagi', 'error');
+            }
+        }
+
+        // Download PDF Function
+        function downloadPDF() {
+            showNotification('Menyiapkan PDF...', 'info');
+            
+            // Simulate PDF generation
+            setTimeout(() => {
+                showNotification('PDF siap diunduh!', 'success');
+                
+                // Create download link
+                const link = document.createElement('a');
+                link.href = '#';
+                link.download = `J&T_Tracking_${new Date().getTime()}.pdf`;
+                link.click();
+            }, 1500);
+        }
+
+        // Contact Support
+        function contactSupport() {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.95);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 2000;
+                backdrop-filter: blur(10px);
+            `;
+            
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    border-radius: 24px;
+                    padding: 30px;
+                    max-width: 400px;
+                    width: 90%;
+                    text-align: center;
+                    box-shadow: 0 20px 60px rgba(230, 0, 0, 0.2);
+                    border: 1px solid rgba(230, 0, 0, 0.1);
+                ">
+                    <h3 style="color: #e60000; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <i class="fas fa-headset"></i>
+                        Bantuan Pelanggan
+                    </h3>
+                    <div style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px;">
+                        <a href="tel:+1300889999" style="
+                            display: flex;
+                            align-items: center;
+                            gap: 15px;
+                            padding: 15px;
+                            background: #fff5f5;
+                            border-radius: 12px;
+                            text-decoration: none;
+                            color: #333;
+                            transition: all 0.3s;
+                            border: 1px solid rgba(230, 0, 0, 0.1);
+                        " onmouseover="this.style.background='#ffe6e6'" onmouseout="this.style.background='#fff5f5'">
+                            <i class="fas fa-phone" style="color: #e60000;"></i>
+                            <span>1-300-88-9999</span>
+                        </a>
+                        <a href="mailto:support@jtexpress.my" style="
+                            display: flex;
+                            align-items: center;
+                            gap: 15px;
+                            padding: 15px;
+                            background: #fff5f5;
+                            border-radius: 12px;
+                            text-decoration: none;
+                            color: #333;
+                            transition: all 0.3s;
+                            border: 1px solid rgba(230, 0, 0, 0.1);
+                        " onmouseover="this.style.background='#ffe6e6'" onmouseout="this.style.background='#fff5f5'">
+                            <i class="fas fa-envelope" style="color: #e60000;"></i>
+                            <span>support@jtexpress.my</span>
+                        </a>
+                        <a href="https://www.jtexpress.my" target="_blank" style="
+                            display: flex;
+                            align-items: center;
+                            gap: 15px;
+                            padding: 15px;
+                            background: #fff5f5;
+                            border-radius: 12px;
+                            text-decoration: none;
+                            color: #333;
+                            transition: all 0.3s;
+                            border: 1px solid rgba(230, 0, 0, 0.1);
+                        " onmouseover="this.style.background='#ffe6e6'" onmouseout="this.style.background='#fff5f5'">
+                            <i class="fas fa-globe" style="color: #e60000;"></i>
+                            <span>www.jtexpress.my</span>
+                        </a>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" style="
+                        background: #e60000;
+                        color: white;
+                        border: none;
+                        padding: 12px 30px;
+                        border-radius: 12px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.3s;
+                    " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(230, 0, 0, 0.3)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">Tutup</button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        }
+
+        // Notification System
+        function showNotification(message, type = 'info') {
+            const colors = {
+                success: '#10b981',
+                error: '#ef4444',
+                info: '#e60000'
+            };
+            
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${colors[type]};
+                color: white;
+                padding: 16px 24px;
+                border-radius: 12px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                z-index: 9999;
+                transform: translateX(120%);
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 10);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(120%)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animate cards on load
+            const cards = document.querySelectorAll('.modern-card, .tracking-id-card, .contact-section');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+            
+            // Add hover effects
+            const buttons = document.querySelectorAll('.action-btn-modern, .contact-item');
+            buttons.forEach(btn => {
+                btn.addEventListener('touchstart', () => {
+                    btn.style.transform = 'scale(0.95)';
+                });
+                
+                btn.addEventListener('touchend', () => {
+                    setTimeout(() => {
+                        btn.style.transform = '';
+                    }, 150);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
